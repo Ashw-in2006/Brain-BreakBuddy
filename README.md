@@ -1,73 +1,62 @@
-# Welcome to your Lovable project
+# Brain-BreakBuddy 🧠✨
 
-## Project info
+Brain-BreakBuddy is a productivity companion designed to help users take mindful breaks, refresh their focus, and boost efficiency.  
 
-**URL**: https://lovable.dev/projects/8c582bea-303d-41f5-9708-0b3dc3ee091c
+---
 
-## How can I edit this code?
+## 🚀 Getting Started
 
-There are several ways of editing your application.
+Follow these steps to set up the project locally:
 
-**Use Lovable**
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Ashw-in2006/Brain-BreakBuddy.git
+cd Brain-BreakBuddy
+2. Install Dependencies
+Make sure you have Node.js  (>=16) and npm or yarn installed.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8c582bea-303d-41f5-9708-0b3dc3ee091c) and start prompting.
+Using npm:
 
-Changes made via Lovable will be committed automatically to this repo.
+bash
+npm install
+Or using yarn:
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+bash
+yarn install
+3. Run the Development Server
+bash
 npm run dev
-```
+This will start the app locally. Open http://localhost:8000 (localhost in Bing) in your browser.
 
-**Edit a file directly in GitHub**
+📦 Dependencies
+The project uses the following major dependencies:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+React – UI framework
 
-**Use GitHub Codespaces**
+Next.js – Server-side rendering and routing
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+TypeScript – Type safety
 
-## What technologies are used for this project?
+Tailwind CSS – Styling
 
-This project is built with:
+ESLint & Prettier – Code formatting and linting
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+(You can add/remove based on your actual package.json.)
 
-## How can I deploy this project?
+🛠️ Build for Production
+bash
+npm run build
+npm run start
+🤝 Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change.
 
-Simply open [Lovable](https://lovable.dev/projects/8c582bea-303d-41f5-9708-0b3dc3ee091c) and click on Share -> Publish.
+📄 License
+This project is licensed under the MIT License.
 
-## Can I connect a custom domain to my Lovable project?
+Code
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+👉 This README gives your clients clear instructions to **clone, install dependencies, run locally, and build for production**.  
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Would you like me to also include a **section for deploying on Vercel** (since I see you had a Vercel tab open)? That way, clients can easily host it online too.
