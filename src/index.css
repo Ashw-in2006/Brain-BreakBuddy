@@ -160,4 +160,25 @@ All colors MUST be HSL.
       opacity: 1;
     }
   }
+
+  /* Add these styles */
+.container {
+  max-width: 1200px;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.hover\:bg-gray-50:hover {
+  background-color: rgba(249, 250, 251, 0.8);
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+
 }

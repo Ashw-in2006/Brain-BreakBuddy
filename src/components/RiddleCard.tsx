@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Sparkles, CheckCircle2, XCircle, Lightbulb } from "lucide-react";
+import { TechNews } from "./TechNews"; // You'll need to create this component
 
 interface RiddleCardProps {
   userId: string;
@@ -21,6 +22,7 @@ const RiddleCard = ({ userId, language, onStreakUpdate }: RiddleCardProps) => {
   const [answered, setAnswered] = useState(false);
   const [fact, setFact] = useState<any>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showTechNews, setShowTechNews] = useState(false);
 
   useEffect(() => {
     fetchTodaysRiddle();
@@ -58,6 +60,8 @@ const RiddleCard = ({ userId, language, onStreakUpdate }: RiddleCardProps) => {
       
       if (alreadyAnswered) {
         setIsCorrect(null);
+        // Show tech news if already answered today
+        setTimeout(() => setShowTechNews(true), 500);
       }
     }
   };
@@ -100,27 +104,30 @@ const RiddleCard = ({ userId, language, onStreakUpdate }: RiddleCardProps) => {
     }
     
     setLoading(false);
+    
+    // Show tech news after 1 second (whether correct or wrong)
+    setTimeout(() => setShowTechNews(true), 1000);
   };
 
   // FIXED: Better riddle text extraction
   const getRiddleText = () => {
-  if (!riddle) return "";
-  
-  console.log("Current language:", language);
-  console.log("Riddle object:", riddle);
-  
-  // Based on user's selected language preference
-  switch (language) {
-    case "ta": // Tamil (தமிழ்)
-      return riddle.text_ta || riddle.text_en || riddle.question || "கேள்வி இல்லை";
+    if (!riddle) return "";
     
-    case "ta_en": // Tanglish (Tamil in English script)
-      return riddle.text_ta_en || riddle.text_en || riddle.question || "Question illai";
+    console.log("Current language:", language);
+    console.log("Riddle object:", riddle);
     
-    default: // English
-      return riddle.text_en || riddle.question || "No question available";
-  }
-};
+    // Based on user's selected language preference
+    switch (language) {
+      case "ta": // Tamil (தமிழ்)
+        return riddle.text_ta || riddle.text_en || riddle.question || "கேள்வி இல்லை";
+      
+      case "ta_en": // Tanglish (Tamil in English script)
+        return riddle.text_ta_en || riddle.text_en || riddle.question || "Question illai";
+      
+      default: // English
+        return riddle.text_en || riddle.question || "No question available";
+    }
+  };
 
   // FIXED: Get category display
   const getCategory = () => {
@@ -215,6 +222,11 @@ const RiddleCard = ({ userId, language, onStreakUpdate }: RiddleCardProps) => {
             )}
           </CardContent>
         </Card>
+      )}
+      
+      {/* Tech News Component - shows after answer is submitted (correct or wrong) */}
+      {showTechNews && (
+        <TechNews riddleCategory={getCategory()} />
       )}
     </div>
   );
