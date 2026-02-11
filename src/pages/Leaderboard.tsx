@@ -32,6 +32,14 @@ export default function Leaderboard() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Call fetch functions when user changes
+  useEffect(() => {
+    if (user) {
+      fetchWeeklyLeaderboard();
+      fetchFollowedUsers();
+    }
+  }, [user]);
+
   // Get start of current week
   const getWeekStart = () => {
     const now = new Date();
@@ -105,7 +113,6 @@ export default function Leaderboard() {
     if (!user) return;
     
     try {
-      // First check if user_follows table exists
       const { data: follows, error } = await supabase
         .from('user_follows')
         .select(`
@@ -113,7 +120,8 @@ export default function Leaderboard() {
           profiles:following_id (
             username,
             avatar_url,
-            current_streak
+            current_streak,
+            total_correct
           )
         `)
         .eq('follower_id', user.id)
@@ -125,7 +133,7 @@ export default function Leaderboard() {
         // If table doesn't exist, show sample users to follow
         const { data: sampleUsers } = await supabase
           .from('profiles')
-          .select('id, username, avatar_url, current_streak')
+          .select('id, username, avatar_url, current_streak, total_correct')
           .neq('id', user.id)
           .limit(3);
 
@@ -135,7 +143,8 @@ export default function Leaderboard() {
             profiles: {
               username: profile.username,
               avatar_url: profile.avatar_url,
-              current_streak: profile.current_streak || 0
+              current_streak: profile.current_streak || 0,
+              total_correct: profile.total_correct || 0
             }
           }));
           setFollowedUsers(sampleFollows);
@@ -150,7 +159,6 @@ export default function Leaderboard() {
     if (!user) return;
     
     try {
-      // Create user_follows table if it doesn't exist
       const { error } = await supabase
         .from('user_follows')
         .insert({
@@ -161,7 +169,6 @@ export default function Leaderboard() {
 
       if (!error) {
         fetchFollowedUsers();
-        // Show success message
         alert('Successfully followed user!');
       }
     } catch (error) {
@@ -314,7 +321,7 @@ export default function Leaderboard() {
         </CardContent>
       </Card>
 
-      {/* Followed Users Card */}
+      {/* People You Follow Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -326,7 +333,7 @@ export default function Leaderboard() {
           {followedUsers.length > 0 ? (
             <div className="space-y-3">
               {followedUsers.map((follow: any) => (
-                <div key={follow.following_id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                <div key={follow.following_id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={follow.profiles?.avatar_url} />
@@ -336,38 +343,34 @@ export default function Leaderboard() {
                     </Avatar>
                     <div>
                       <p className="font-medium">{follow.profiles?.username || 'Friend'}</p>
-                      <p className="text-sm text-gray-600">
+                      <div className="flex gap-4 text-sm text-gray-600">
                         <span className="flex items-center gap-1">
                           <Flame className="w-3 h-3 text-orange-500" />
                           {follow.profiles?.current_streak || 0} day streak
                         </span>
-                      </p>
+                        <span className="flex items-center gap-1">
+                          <Trophy className="w-3 h-3" />
+                          {follow.profiles?.total_correct || 0} points
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <Button size="sm" variant="ghost" className="text-blue-600">
-                      View Profile
-                    </Button>
-                  </div>
+                  <Button size="sm" variant="ghost" className="text-blue-600">
+                    View Profile
+                  </Button>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8">
+            <div className="text-center py-6">
               <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="font-semibold text-lg mb-2">Start Following Friends!</h3>
               <p className="text-gray-600 mb-4">
-                Follow other users to see their achievements and compete together!
+                Search for users in the Profile page to follow them and see their achievements here!
               </p>
-              {weeklyRankings.length > 0 && (
-                <Button 
-                  onClick={() => weeklyRankings[0]?.user_id && handleFollow(weeklyRankings[0].user_id)}
-                  className="mx-auto"
-                >
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  Follow Top User
-                </Button>
-              )}
+              <Button onClick={() => window.location.href = '/profile'} className="mx-auto">
+                Go to Profile
+              </Button>
             </div>
           )}
         </CardContent>

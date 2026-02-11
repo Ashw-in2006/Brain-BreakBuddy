@@ -7,8 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
+import Discover from "./pages/Discover";
+import Leaderboard from "./pages/Leaderboard";
 import Settings from "./pages/Settings";
-import Leaderboard from "./pages/Leaderboard"; // UNCOMMENT THIS
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,8 +23,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/leaderboard" element={<Leaderboard />} /> {/* UNCOMMENT THIS */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
